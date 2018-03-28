@@ -25,7 +25,8 @@
 	},
 	"require": {
 		"pattern-lab/core": "^2.0.0",
-		"twig/twig":        "~1.0"
+    "twig/twig":        "~1.0",
+    "phpdocumentor/reflection-docblock": "~4.3.0"
 	},
 	"extra": {
 		"patternlab": {

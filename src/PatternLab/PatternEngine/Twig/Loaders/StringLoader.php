@@ -16,32 +16,33 @@ use \PatternLab\Config;
 use \PatternLab\Dispatcher;
 use \PatternLab\PatternEngine\Loader;
 use \PatternLab\PatternEngine\Twig\TwigUtil;
+use \PatternLab\PatternEngine\Twig\PatternLabEnvironment;
 
 class StringLoader extends Loader {
-	
+
 	/**
 	* Load a new Twig instance that is just a vanilla Twig rendering engine for strings
 	*/
 	public function __construct($options = array()) {
-		
+
 		// set-up the defaults
 		$twigDebug = Config::getOption("twigDebug");
-		
+
 		// go through various places where things can exist
 		$filesystemLoaderPaths = array();
-		
+
 		// see if source/_macros exists
 		$macrosPath = Config::getOption("sourceDir").DIRECTORY_SEPARATOR."_macros";
 		if (is_dir($macrosPath)) {
 			$filesystemLoaderPaths[] = $macrosPath;
 		}
-		
+
 		// see if source/_layouts exists. if so add it to be searchable
 		$layoutsPath = Config::getOption("sourceDir").DIRECTORY_SEPARATOR."_layouts";
 		if (is_dir($layoutsPath)) {
 			$filesystemLoaderPaths[] = $layoutsPath;
 		}
-		
+
 		// set-up the loader list
 		$loaders = array();
 		// add the paths to the filesystem loader if the paths existed
@@ -49,11 +50,11 @@ class StringLoader extends Loader {
 			$loaders[] = new \Twig_Loader_Filesystem($filesystemLoaderPaths);
 		}
 		$loaders[] = new \Twig_Loader_String();
-		
+
 		// set-up Twig
 		$twigLoader = new \Twig_Loader_Chain($loaders);
-		$instance   = new \Twig_Environment($twigLoader, array("debug" => $twigDebug));
-		
+		$instance   = new PatternLabEnvironment($twigLoader, array("debug" => $twigDebug));
+
 		// customize Twig
 		TwigUtil::setInstance($instance);
 		// Disabling custom Twig Extensions for String loader as it is only used internally by PL
@@ -66,7 +67,7 @@ class StringLoader extends Loader {
 		TwigUtil::loadDateFormats();
 		TwigUtil::loadDebug();
 		TwigUtil::loadMacros();
-		
+
 		// set-up the dispatcher
 		$dispatcherInstance = Dispatcher::getInstance();
 		$dispatcherInstance->dispatch("twigLoader.customize");
@@ -74,9 +75,9 @@ class StringLoader extends Loader {
 
 		// get the instance
 		$this->instance = TwigUtil::getInstance();
-		
+
 	}
-	
+
 	/**
 	* Render a string
 	* @param  {Array}        the options to be rendered by Twig
@@ -84,9 +85,9 @@ class StringLoader extends Loader {
 	* @return {String}       the rendered result
 	*/
 	public function render($options = array()) {
-		
+
 		return $this->instance->render($options["string"], $options["data"]);
-		
+
 	}
-	
+
 }
