@@ -1,0 +1,19 @@
+<h1>{{ twig.doc.summary }}</h1>
+
+<h2>Description?</h2>
+{{ twig.doc.summary }}
+
+<h2>Params 2</h2>
+<table>
+{% for name,variable in twig.doc.tags.param %}
+  <tr>
+    <td>{{ name }}</td>
+    <td>{{ variable.type }}</td>
+    <td>{{ variable.description }}</td>
+  </tr>
+{% endfor %}
+</table>
+
+<h2>Example start</h2>
+{% include(template_from_string(twig.doc.tags.example)) %}
+<h2>Example end</h2>
