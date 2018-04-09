@@ -1,5 +1,5 @@
 {
-	"name":             "pattern-lab/patternengine-ext-twig",
+	"name":             "b-connect/patternengine-ext-twig",
 	"description":      "Twig-based PatternEngine for Pattern Lab.",
 	"keywords":         ["twig", "pattern lab", "pattern engine"],
 	"homepage":         "http://patternlab.io",
